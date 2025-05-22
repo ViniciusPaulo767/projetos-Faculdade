@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 public class Principal {
     public static void main(String[] args) {
        
-        String menu="1-Cadastrar\n2-Atualizarz\n3-Apagar\n4-Listar\n0-Sair";
+        String menu="1-Cadastrar\n2-Atualizar\n3-Apagar\n4-Listar\n0-Sair";
         int op;
         do{
             op = Integer.parseInt(JOptionPane.showInputDialog(menu));
