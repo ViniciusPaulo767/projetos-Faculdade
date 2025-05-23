@@ -10,12 +10,8 @@ public class ConexaoBD {
     private static String senha="@Vipp0703";
     
     public static Connection obterConexao() throws Exception{
-        String url=String.format(
-                "jdbc:mysql://%s:%s/%s",
-                host,
-                porta,
-                db
-        );
+        String url=String.format("jdbc:mysql://%s:%s/%s?useSSL=false&serverTimezone=UTC",
+            host,porta,db);
         return DriverManager.getConnection(url,usuario,senha);
-    } 
+    }
 }
