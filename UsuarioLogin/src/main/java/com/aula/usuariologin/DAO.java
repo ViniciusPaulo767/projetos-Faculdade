@@ -10,9 +10,12 @@ public class DAO {
         try(Connection conn=ConexaoBD.obterConexao();
                PreparedStatement ps=conn.prepareStatement(sql)){
             ps.setString(1, usuario.getNome());
-            ps.setString(2, usuario.getSenha());
             try(ResultSet rs=ps.executeQuery()){
-                return rs.next();
+                if(rs.next()){
+                    String senhaArmazenada=rs.getString("senha");
+                    return usuario.getSenha().equals(senhaArmazenada);
+                }
+                return false;
             }
         }
     }
