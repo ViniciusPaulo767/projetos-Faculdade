@@ -3,6 +3,7 @@ package com.aula.pessoas.bd;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class Pessoa {
@@ -11,6 +12,15 @@ public class Pessoa {
     private String nome;
     private String fone;
     private String email;
+
+    public Pessoa(){}
+
+    public Pessoa(int codigo,String nome,String fone,String email){
+        this.codigo=codigo;
+        this.nome=nome;
+        this.fone=fone;
+        this.email=email;
+    }
     
     public int codigo(){
         return codigo;
@@ -44,8 +54,8 @@ public class Pessoa {
             ps.setString(2, fone);
             ps.setString(3, email);
             ps.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao inserir: " + e.getMessage());
         }
     }
 
@@ -58,8 +68,8 @@ public class Pessoa {
             ps.setString(3, email);
             ps.setInt(4, codigo);
             ps.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar: " + e.getMessage());
         }
     }
 
@@ -69,26 +79,27 @@ public class Pessoa {
             PreparedStatement ps = c.prepareStatement(sql);
             ps.setInt(1, codigo);
             ps.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao apagar: " + e.getMessage());
         }
     }
 
     public void listar() {
         String sql = "SELECT * FROM tb_pessoa";
+        StringBuilder resultado=new StringBuilder();
         try (Connection c = new ConnectionFactory().obtemConexao()) {
             PreparedStatement ps = c.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String aux = String.format("Código: %d, Nome: %s, Fone: %s, Email: %s",
+                resultado.append (String.format("Código: %d, Nome: %s, Fone: %s, Email: %s",
                     rs.getInt("codigo"),
                     rs.getString("nome"),
                     rs.getString("fone"),
-                    rs.getString("email"));
-                JOptionPane.showMessageDialog(null, aux);
+                    rs.getString("email")));
+                JOptionPane.showMessageDialog(null, resultado.toString());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar: " + e.getMessage());
         }
     }
 }

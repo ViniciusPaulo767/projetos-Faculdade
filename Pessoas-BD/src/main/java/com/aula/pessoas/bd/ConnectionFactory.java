@@ -5,20 +5,24 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionFactory {
-    
-    public Connection obtemConexao(){
-        try{
-            //Configuração Básicas
-            String url="jdbc:mysql://localhost:33306/db_pessoas";
-            String usuario="root";
-            String senha="@Vipp0703";
+    private static final String URL = "jdbc:mysql://127.0.0.1:3306/db_pessoas" +
+                                    "?useSSL=false" +
+                                    "&allowPublicKeyRetrieval=true" +
+                                    "&serverTimezone=UTC" +
+                                    "&autoReconnect=true" +
+                                    "&socketTimeout=3000";
+    private static final String USER = "root";
+    private static final String PASSWORD = "@Vipp0703";
 
-            //Cria e retorna a conexão
-            return DriverManager.getConnection(url, usuario, senha);
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Driver JDBC não encontrado", e);
         }
-        catch (SQLException e){
-            //Transforma em RuntimeException para não precisar declarar throws
-            throw new RuntimeException("Erro ao conectar ao banco",e);
-        }
+    }
+
+    public Connection obtemConexao() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }
