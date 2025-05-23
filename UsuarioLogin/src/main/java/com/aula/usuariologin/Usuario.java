@@ -18,7 +18,7 @@ public class Usuario {
     public String getSenha(){
         return senha;
     }
-    public void SetSenha(String senha){
+    public void setSenha(String senha){
         this.senha=senha;
     }
 }
