@@ -2,26 +2,23 @@ package com.aula.pessoas.bd;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class ConnectionFactory {
     
-    private String usuario="root";
-    private String senha="1234";
-    private String host="localhost";
-    private String porta="3306";
-    private String bd="db_pessoas";
-    
     public Connection obtemConexao(){
         try{
-            Connection c=DriverManager.getConnection(
-            "jdbc:mysql://"+host+":"+porta+"/"+bd,
-            usuario,
-            senha);
-            return c;
+            //Configuração Básicas
+            String url="jdbc:mysql://localhost:33306/db_pessoas";
+            String usuario="root";
+            String senha="@Vipp0703";
+
+            //Cria e retorna a conexão
+            return DriverManager.getConnection(url, usuario, senha);
         }
-        catch (Exception e){
-            e.printStackTrace();
-            return null;
+        catch (SQLException e){
+            //Transforma em RuntimeException para não precisar declarar throws
+            throw new RuntimeException("Erro ao conectar ao banco",e);
         }
     }
 }
